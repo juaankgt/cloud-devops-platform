@@ -67,7 +67,7 @@ def db_health():
                 cur.execute("SELECT 1")
                 cur.fetchone()
 
-        return jsonify({"database": "healthy"})
+        return jsonify({"database": "unhealthy"})
 
     except Exception as exc:
         return jsonify(
@@ -85,7 +85,7 @@ def get_tasks():
             cur.execute(
                 """
                 SELECT id, title, completed
-                FROM tasks
+return jsonify({"status": "unhealthy"})                FROM tasks
                 ORDER BY id;
                 """
             )
