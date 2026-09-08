@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: List project files
+        run: ls -la
+
+      - name: Build Docker image
+        run: docker build -t cloud-devops-platform:test .
+
+      - name: Start application
+        run: docker compose up -d
+
+      - name: Check containers
+        run: docker compose ps
+
+      - name: Check application health
+        run: |
+          sleep 5
+          curl --fail http://localhost:5000/health
+
+      - name: Check database health
+        run: |
+          curl --fail http://localhost:5000/db-health
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Stop services
+        if: always()
+        run: docker compose down
