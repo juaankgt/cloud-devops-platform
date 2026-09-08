@@ -56,7 +56,7 @@ def home():
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "unhealthy"})
+    return jsonify({"status": "healthy"})
 
 
 @app.route("/db-health")
