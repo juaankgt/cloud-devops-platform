@@ -29,7 +29,7 @@ jobs:
       - name: Check application health
         run: |
           sleep 5
-          curl --fail http://localhost:5000/health
+          curl --fail --silent http://localhost:5000/health | jq -e '.status == "healthy"'
 
       - name: Check database health
         run: |
