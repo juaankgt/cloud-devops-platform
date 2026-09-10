@@ -30,5 +30,20 @@ services:
       timeout: 5s
       retries: 5
 
+  tests:
+    build: .
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      POSTGRES_DB: tasks
+      POSTGRES_USER: devops
+      POSTGRES_PASSWORD: devops_password
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   postgres_data:
